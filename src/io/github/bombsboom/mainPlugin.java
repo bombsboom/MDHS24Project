@@ -5,6 +5,6 @@ import org.bukkit.plugin.java.JavaPlugin;
 public class mainPlugin extends JavaPlugin{
 	@Override
 	public void onEnable() {
-		getServer().getLogger().info("testtrr");
+		getServer().getLogger().info("testterr");
 	}
 }
