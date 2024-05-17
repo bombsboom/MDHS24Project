@@ -43,10 +43,10 @@ public class protectionEvents implements Listener {
 					}
 				}else{
 					if(damage.DamageType(ARROW) && mainPlugin.playerRoles.getuniqueID){
-						victim.sethealth(0)
+						victim.setHealth(0);
 					else{
-						attacker.sethealth(0)
-						attacker.itemdrop(BOW)
+						attacker.setHealth(0);
+						attacker.itemdrop();
 					}
 						
 					}
