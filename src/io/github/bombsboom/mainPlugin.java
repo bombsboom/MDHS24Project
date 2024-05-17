@@ -9,8 +9,6 @@ public class mainPlugin extends JavaPlugin{
 	
 	public static HashMap<UUID, Integer> playerRoles = new HashMap<>();
 	
-	
-	
 	@Override
 	public void onLoad() {
 		getServer().getLogger().info("[Murder Mystery] Loaded");

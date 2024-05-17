@@ -1,5 +1,6 @@
 package io.github.bombsboom;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Random;
@@ -36,13 +37,37 @@ public class lobbyEvents implements Listener {
 		// role logic
 		Random rand = new Random();
 		
-		Object[] players = Bukkit.getOnlinePlayers().toArray();
+		ArrayList<Player> players = new ArrayList<Player>(Bukkit.getOnlinePlayers());
 		
-		int next = rand.nextInt(players.length);
+		// select sherrif
+		int next = rand.nextInt(players.size());
 		
-		do {
-			
-		} while()
+		UUID id = players.get(next).getUniqueId();
 		
+		mainPlugin.playerRoles.replace(id,1);
+		players.remove(next);
+		
+		// select murd
+		next = rand.nextInt(players.size());
+				
+		id = players.get(next).getUniqueId();
+				
+		mainPlugin.playerRoles.replace(id,2);
+		
+		// rest of players become inno
+		for(Player p: players) {
+			mainPlugin.playerRoles.replace(p.getUniqueId(),0);
+		}
+		
+		//start countdown
+		
+		//start game
+		GameStartEvent event = new GameStartEvent();
+		Bukkit.getPluginManager().callEvent(event);
+	}
+	
+	@EventHandler
+	public void onGameStart(GameStartEvent e) {
+		//on game start
 	}
 }
