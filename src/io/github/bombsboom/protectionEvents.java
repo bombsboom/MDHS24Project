@@ -32,13 +32,23 @@ public class protectionEvents implements Listener {
 			if (source.getCausingEntity() instanceof Player) {
 				Player victim = (Player) e.getEntity();
 				Player attacker = (Player) source.getCausingEntity();
-
+				
 				if(!source.isIndirect()) {
 					Material item = attacker.getInventory().getItemInMainHand().getType();
 					if(item == Material.IRON_SWORD) {
 						victim.setHealth(0);
+						
 					}else{ // random junk or fist
 						e.setCancelled(true);
+					}
+				}else{
+					if(damage.DamageType(ARROW) && mainPlugin.playerRoles.getuniqueID){
+						victim.setHealth(0);
+					else{
+						attacker.setHealth(0);
+						attacker.itemdrop();
+					}
+						
 					}
 				}
 			}
