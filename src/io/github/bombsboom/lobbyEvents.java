@@ -30,6 +30,11 @@ public class lobbyEvents implements Listener {
 	public void onPlayerLeave(PlayerQuitEvent e) {
 		Player p = e.getPlayer();
 		mainPlugin.playerRoles.remove(p);
+		
+		if(mainPlugin.playerRoles.size() < 5) {
+			
+			
+		}
 	}
 	
 	@EventHandler
