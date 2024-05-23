@@ -24,6 +24,16 @@ public class lobbyEvents implements Listener {
 		this.plugin = plugin;
 	}
 	
+	BukkitRunnable countdownTask = new BukkitRunnable() {
+		int time = 10;
+	    public void run() {
+	    	for(Player p: Bukkit.getOnlinePlayers()) {
+		    	   p.sendTitle(Integer.toString(time), "", 0, 20, 0);
+		       }
+	    	time--;
+	    }
+	};
+	
 	@EventHandler
 	public void onPlayerJoin(PlayerJoinEvent e) {
 		Player p = e.getPlayer();
@@ -40,6 +50,13 @@ public class lobbyEvents implements Listener {
 	public void onPlayerLeave(PlayerQuitEvent e) {
 		Player p = e.getPlayer();
 		mainPlugin.playerRoles.remove(p);
+		
+		if(mainPlugin.playerRoles.size() < 5) {
+			for(Player pl: Bukkit.getOnlinePlayers()) {
+				countdownTask.cancel();
+		    	pl.sendTitle(ChatColor.RED + "Cancelled", "Not Enough Players", 0, 20, 0);
+		    }
+		}
 		
 	}
 	
@@ -75,18 +92,8 @@ public class lobbyEvents implements Listener {
 	    	   p.sendTitle(ChatColor.GREEN + "Game Starting!", "", 0, 20, 0);
 	    }
 		
-		
-		
-		BukkitTask countdownTask = new BukkitRunnable() {
-			int time = 10;
-		    public void run() {
-		    	for(Player p: Bukkit.getOnlinePlayers()) {
-			    	   p.sendTitle(Integer.toString(time), "", 0, 20, 0);
-			       }
-		    	time--;
-		    }
-		}.runTaskTimer(plugin, 0, 20);
-		
+		countdownTask.runTaskTimer(plugin, 0, 20);
+				
 		//start game
 		GameStartEvent event = new GameStartEvent();
 		Bukkit.getPluginManager().callEvent(event);
