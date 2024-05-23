@@ -42,13 +42,15 @@ public class protectionEvents implements Listener {
 						e.setCancelled(true);
 					}
 				}else{
-					if(damage.DamageType(ARROW) && mainPlugin.playerRoles.getuniqueID){
+					
+					if(DamageCause.PROJECTILE && mainPlugin.playerRoles.getuniqueID){
 						victim.setHealth(0);
+						
+					
+					}
 					else{
 						attacker.setHealth(0);
-						attacker.itemdrop();
-					}
-						
+						attacker.dropItem(true);
 					}
 				}
 			}
