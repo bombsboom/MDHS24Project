@@ -21,7 +21,6 @@ public class protectionEvents implements Listener {
 	public void onPlayerDropItemEvent(PlayerDropItemEvent e) {
 		e.setCancelled(true);
 	}
-
 	@EventHandler
 	public void EntityDamageEvent(EntityDamageEvent e) {
 
@@ -43,16 +42,16 @@ public class protectionEvents implements Listener {
 					}
 				}else{
 					
-					if(DamageCause.PROJECTILE && mainPlugin.playerRoles.getuniqueID){
+					if(DamageCause.PROJECTILE && mainPlugin.playerRoles.get(id, 2)){
 						victim.setHealth(0);
 						
-					
 					}
-					else{
+					else if(DamageCause.PROJECTILE && mainPlugin.playerRoles.get(id, 0)){
 						attacker.setHealth(0);
 						attacker.dropItem(true);
 					}
-				}
+					
+						
 			}
 			
 		} else {
@@ -60,4 +59,5 @@ public class protectionEvents implements Listener {
 		}
 	}
 
+}
 }
