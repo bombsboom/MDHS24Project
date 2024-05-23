@@ -7,12 +7,22 @@ import java.util.Random;
 import java.util.UUID;
 
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
+import org.bukkit.plugin.java.JavaPlugin;
+import org.bukkit.scheduler.BukkitRunnable;
+import org.bukkit.scheduler.BukkitTask;
 public class lobbyEvents implements Listener {
+	
+	JavaPlugin plugin;
+	
+	public lobbyEvents(JavaPlugin plugin) {
+		this.plugin = plugin;
+	}
 	
 	@EventHandler
 	public void onPlayerJoin(PlayerJoinEvent e) {
@@ -31,10 +41,6 @@ public class lobbyEvents implements Listener {
 		Player p = e.getPlayer();
 		mainPlugin.playerRoles.remove(p);
 		
-		if(mainPlugin.playerRoles.size() < 5) {
-			
-			
-		}
 	}
 	
 	@EventHandler
@@ -65,6 +71,21 @@ public class lobbyEvents implements Listener {
 		}
 		
 		//start countdown
+		for(Player p: Bukkit.getOnlinePlayers()) {
+	    	   p.sendTitle(ChatColor.GREEN + "Game Starting!", "", 0, 20, 0);
+	    }
+		
+		
+		
+		BukkitTask countdownTask = new BukkitRunnable() {
+			int time = 10;
+		    public void run() {
+		    	for(Player p: Bukkit.getOnlinePlayers()) {
+			    	   p.sendTitle(Integer.toString(time), "", 0, 20, 0);
+			       }
+		    	time--;
+		    }
+		}.runTaskTimer(plugin, 0, 20);
 		
 		//start game
 		GameStartEvent event = new GameStartEvent();
