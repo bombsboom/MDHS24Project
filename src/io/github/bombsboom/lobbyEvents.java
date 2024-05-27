@@ -43,6 +43,10 @@ public class lobbyEvents implements Listener {
 			GameCountDownEvent event = new GameCountDownEvent();
 			Bukkit.getPluginManager().callEvent(event);
 			
+		}else {
+			for(Player pl: Bukkit.getOnlinePlayers()) {
+		    	   pl.sendTitle(ChatColor.YELLOW + "Waiting... " + Bukkit.getOnlinePlayers().size() + "/5", "", 0, 20, 0);
+		    }
 		}
 	}
 	
