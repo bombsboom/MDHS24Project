@@ -1,5 +1,8 @@
 package io.github.bombsboom;
 
+import java.io.BufferedReader;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.util.HashMap;
 import java.util.UUID;
 
@@ -11,9 +14,18 @@ public class mainPlugin extends JavaPlugin{
 	
 	@Override
 	public void onLoad() {
-		getServer().getLogger().info("[Murder Mystery] Loaded");
-		
-	}
+		getServer().getLogger().info("[Murder Mystery] Loaded"); 
+		BufferedReader br;
+		try {
+			br = new BufferedReader(new FileReader("leaderBoard.txt"));
+			String line; 
+			while ((line = br.readLine()) != null) {
+				
+			}
+		} catch (FileNotFoundException e) {
+		getServer().getLogger().info("[Murder Mystery] leaderboard txt io error"); 
+	} 
+	
 	
 	@Override
 	public void onEnable() {
