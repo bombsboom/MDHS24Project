@@ -1,5 +1,7 @@
 package io.github.bombsboom;
 
+import java.util.UUID;
+
 import org.bukkit.Material;
 import org.bukkit.damage.DamageSource;
 import org.bukkit.entity.Player;
@@ -42,11 +44,14 @@ public class protectionEvents implements Listener {
 					}
 				}else{
 					
-					if(DamageCause.PROJECTILE && mainPlugin.playerRoles.get(id, 2)){
-						victim.setHealth(0);
-						
+					 UUID id = victim.getUniqueId();
+					
+					if(DamageCause.PROJECTILE != null){
+						if(mainPlugin.playerRoles.get(id) == 0){
+							victim.setHealth(0);
+						}
 					}
-					else if(DamageCause.PROJECTILE && mainPlugin.playerRoles.get(id, 0)){
+					else if(mainPlugin.playerRoles.get(id) == 0){
 						attacker.setHealth(0);
 						attacker.dropItem(true);
 					}
