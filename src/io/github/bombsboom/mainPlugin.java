@@ -3,6 +3,7 @@ package io.github.bombsboom;
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.UUID;
 
@@ -22,8 +23,9 @@ public class mainPlugin extends JavaPlugin{
 			while ((line = br.readLine()) != null) {
 				
 			}
-		} catch (FileNotFoundException e) {
-		getServer().getLogger().info("[Murder Mystery] leaderboard txt io error"); 
+		} catch (IOException e) {
+			getServer().getLogger().info("[Murder Mystery] leaderboard txt io error"); 
+		}
 	} 
 	
 	

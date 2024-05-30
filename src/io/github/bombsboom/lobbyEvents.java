@@ -8,11 +8,13 @@ import java.util.UUID;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
+import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.scheduler.BukkitTask;
@@ -24,12 +26,24 @@ public class lobbyEvents implements Listener {
 		this.plugin = plugin;
 	}
 	
-	BukkitRunnable countdownTask = new BukkitRunnable() {
+	BukkitRunnable lobbyCountdownTask = new BukkitRunnable() {
 		int time = 10;
 	    public void run() {
 	    	for(Player p: Bukkit.getOnlinePlayers()) {
-		    	   p.sendTitle(Integer.toString(time), "", 0, 20, 0);
-		       }
+	    		p.sendTitle("Lobby Starting!", "" + time, 0, 20, 0);
+		    }
+	    	time--;
+	    }
+	};
+	
+	BukkitRunnable gameCountdownTask = new BukkitRunnable() {
+		int time = 8;
+	    public void run() {
+	    	if(time <=5) {
+	    		for(Player p: Bukkit.getOnlinePlayers()) {
+	    			p.sendTitle("Game Starting!", "" + time, 0, 20, 0);
+	    		}
+	    	}
 	    	time--;
 	    }
 	};
@@ -57,7 +71,7 @@ public class lobbyEvents implements Listener {
 		
 		if(mainPlugin.playerRoles.size() < 5) {
 			for(Player pl: Bukkit.getOnlinePlayers()) {
-				countdownTask.cancel();
+				lobbyCountdownTask.cancel();
 		    	pl.sendTitle(ChatColor.RED + "Cancelled", "Not Enough Players", 0, 20, 0);
 		    }
 		}
@@ -66,9 +80,23 @@ public class lobbyEvents implements Listener {
 	
 	@EventHandler
 	public void onGameCountDown(GameCountDownEvent e) {
-		// role logic
-		Random rand = new Random();
 		
+		//start countdown
+		for(Player p: Bukkit.getOnlinePlayers()) {
+	    	   p.sendTitle(ChatColor.GREEN + "Game Starting!", "", 0, 20, 0);
+	    }
+		
+		lobbyCountdownTask.runTaskTimer(plugin, 0, 20);
+				
+		//start game
+		GameStartEvent event = new GameStartEvent();
+		Bukkit.getPluginManager().callEvent(event);
+	}
+	
+	@EventHandler
+	public void onGameStart(GameStartEvent e) {
+		//roles
+		Random rand = new Random();
 		ArrayList<Player> players = new ArrayList<Player>(Bukkit.getOnlinePlayers());
 		
 		// select sheriff
@@ -91,20 +119,28 @@ public class lobbyEvents implements Listener {
 			mainPlugin.playerRoles.replace(p.getUniqueId(),0);
 		}
 		
-		//start countdown
-		for(Player p: Bukkit.getOnlinePlayers()) {
-	    	   p.sendTitle(ChatColor.GREEN + "Game Starting!", "", 0, 20, 0);
-	    }
+		//announce roles
+		for(Player p : Bukkit.getOnlinePlayers()) {
+			if(mainPlugin.playerRoles.get(p.getUniqueId()) == 0) p.sendTitle(ChatColor.GREEN + "Innocent", "Collect gold to gain a bow", 0, 20, 3);
+			if(mainPlugin.playerRoles.get(p.getUniqueId()) == 1) p.sendTitle(ChatColor.BLUE + "Sheriff", "Take down the murderer", 0, 20, 3);
+			if(mainPlugin.playerRoles.get(p.getUniqueId()) == 2) p.sendTitle(ChatColor.RED + "Murderer", "Eliminate everyone", 0, 20, 3);
+		}
 		
-		countdownTask.runTaskTimer(plugin, 0, 20);
-				
-		//start game
-		GameStartEvent event = new GameStartEvent();
-		Bukkit.getPluginManager().callEvent(event);
-	}
-	
-	@EventHandler
-	public void onGameStart(GameStartEvent e) {
-		//on game start
+		//count down to start
+		
+		//give items
+		for(Player p : Bukkit.getOnlinePlayers()) {
+			if(mainPlugin.playerRoles.get(p.getUniqueId()) == 1) { // sheriff
+				ItemStack bow = new ItemStack(Material.BOW);
+				ItemStack arrow = new ItemStack(Material.ARROW);
+				p.getInventory().addItem(bow);
+				p.getInventory().addItem(arrow);
+			}
+			
+			if(mainPlugin.playerRoles.get(p.getUniqueId()) == 2) { // murd
+				ItemStack sword = new ItemStack(Material.IRON_SWORD);
+				p.getInventory().addItem(sword);
+			}
+		}
 	}
 }
