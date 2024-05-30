@@ -18,7 +18,6 @@ public class GameEvents {
 			
 			Location location = player.getLocation();
 		    ArmorStand stand = player.getWorld().spawn(location, ArmorStand.class);
-		    
 		}
 	}
 }
