@@ -1,5 +1,7 @@
 package io.github.bombsboom;
 
+import java.util.UUID;
+
 import org.bukkit.Material;
 import org.bukkit.damage.DamageSource;
 import org.bukkit.entity.Player;
@@ -21,7 +23,6 @@ public class protectionEvents implements Listener {
 	public void onPlayerDropItemEvent(PlayerDropItemEvent e) {
 		e.setCancelled(true);
 	}
-
 	@EventHandler
 	public void EntityDamageEvent(EntityDamageEvent e) {
 
@@ -42,15 +43,20 @@ public class protectionEvents implements Listener {
 						e.setCancelled(true);
 					}
 				}else{
-					if(damage.DamageType(ARROW) && mainPlugin.playerRoles.getuniqueID){
-						victim.setHealth(0);
-					else{
+					
+					 UUID id = victim.getUniqueId();
+					
+					if(DamageCause.PROJECTILE != null){
+						if(mainPlugin.playerRoles.get(id) == 0){
+							victim.setHealth(0);
+						}
+					}
+					else if(mainPlugin.playerRoles.get(id) == 0){
 						attacker.setHealth(0);
-						attacker.itemdrop();
+						attacker.dropItem(true);
 					}
+					
 						
-					}
-				}
 			}
 			
 		} else {
@@ -58,4 +64,5 @@ public class protectionEvents implements Listener {
 		}
 	}
 
+}
 }

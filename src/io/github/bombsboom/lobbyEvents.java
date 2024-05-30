@@ -71,7 +71,7 @@ public class lobbyEvents implements Listener {
 		
 		ArrayList<Player> players = new ArrayList<Player>(Bukkit.getOnlinePlayers());
 		
-		// select sherrif
+		// select sheriff
 		int next = rand.nextInt(players.size());
 		
 		UUID id = players.get(next).getUniqueId();
