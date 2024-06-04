@@ -1,1 +1,3 @@
-
+main: io.github.bombsboom.mainPlugin
+name: MurderMystery
+version: 1.0.0

@@ -34,7 +34,7 @@ public class playerEvents implements Listener {
 				Player victim = (Player) e.getEntity();
 				Player attacker = (Player) source.getCausingEntity();
 				
-				if(!source.isIndirect()) {
+				if(!source.isIndirect()) { //melee
 					Material item = attacker.getInventory().getItemInMainHand().getType();
 					if(item == Material.IRON_SWORD) {
 						victim.setHealth(0);
@@ -46,15 +46,16 @@ public class playerEvents implements Listener {
 					
 					 UUID id = victim.getUniqueId();
 					
-					if(DamageCause.PROJECTILE != null){
-						if(mainPlugin.playerRoles.get(id) == 0){
+					if(DamageCause.PROJECTILE != null){//bow
+						if(mainPlugin.playerRoles.get(id) == 2){ //killed murd
 							victim.setHealth(0);
+							
+						}else if(mainPlugin.playerRoles.get(id) == 1 || mainPlugin.playerRoles.get(id) == 0){ //hit inno
+							
+							attacker.setHealth(0);
 						}
 					}
-					else if(mainPlugin.playerRoles.get(id) == 0){
-						attacker.setHealth(0);
-						attacker.dropItem(true);
-					}
+					
 					
 						
 			}
