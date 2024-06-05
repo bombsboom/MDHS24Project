@@ -50,19 +50,16 @@ public class playerEvents implements Listener {
 				}else{ //ranged
 					UUID id = victim.getUniqueId();
 					
-					if(DamageCause.PROJECTILE != null){
-						if(mainPlugin.playerRoles.get(id) == 2){ // murderer
+					if(DamageCause.PROJECTILE != null){//bow
+						if(mainPlugin.playerRoles.get(id) == 2){ //killed murd
 							victim.setHealth(0);
+							
+						}else if(mainPlugin.playerRoles.get(id) == 1 || mainPlugin.playerRoles.get(id) == 0){ //hit inno
+							
+							attacker.setHealth(0);
 						}
-					} else { // inno/sheriff
-						attacker.setHealth(0);
-						/*
-						 * TODO : IMPLEMENT DROPPED BOW LOGIC
-						 */
 					}
 				}
-			} else {
-				e.setCancelled(true);
 			}
 		}	
 
