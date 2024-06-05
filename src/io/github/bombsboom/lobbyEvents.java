@@ -8,10 +8,13 @@ import java.util.UUID;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.Location;
 import org.bukkit.Material;
+import org.bukkit.entity.ArmorStand;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.inventory.ItemStack;
@@ -142,5 +145,20 @@ public class lobbyEvents implements Listener {
 				p.getInventory().addItem(sword);
 			}
 		}
+	}
+	
+	@EventHandler
+	public void onGameEnd(GameEndEvent e) {
+		
+	}
+	
+	@EventHandler  
+	public void onDeath(PlayerDeathEvent event) {
+		/*
+		 * TODO: END GAME LOGIC
+		 */
+		
+		Player p = (Player) event.getEntity();
+	
 	}
 }

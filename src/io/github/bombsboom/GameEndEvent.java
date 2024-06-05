@@ -1,7 +1,7 @@
 package io.github.bombsboom;
 
 /**
- * called when countdown starts before game phase
+ * called when game phase ends
  * 
  */
 
@@ -9,12 +9,12 @@ import org.bukkit.event.Cancellable;
 import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
 
-public class GameCountDownEvent extends Event implements Cancellable{
+public class GameEndEvent extends Event implements Cancellable{
 
 	private static final HandlerList HANDLERS_LIST = new HandlerList();
 	private boolean isCancelled;
 	
-	public GameCountDownEvent(){
+	public GameEndEvent(){
         this.isCancelled = false;
     }
 	
